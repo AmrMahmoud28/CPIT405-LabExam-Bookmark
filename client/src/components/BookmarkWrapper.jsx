@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import BookmarkForm from "./BookmarkForm";
+import Bookmark from "./Bookmark";
 
 const BookmarkWrapper = () => {
   const API_URL = "http://localhost:3000/api/";
   const [bookmarks, setBookmarks] = useState([]);
+  const [editBookmark, setEditBookmark] = useState(null);
 
   const fetchBookmarks = async () => {
     const response = await fetch(API_URL + "readAll.php");
@@ -17,18 +19,23 @@ const BookmarkWrapper = () => {
 
   return (
     <div className="bookmarkWrapper">
-      <BookmarkForm API_URL={API_URL} onBookmarkAdded={fetchBookmarks}/>
+      <h1>Welcome to Bookmark App</h1>
+      <BookmarkForm
+        API_URL={API_URL}
+        onBookmarkAdded={fetchBookmarks}
+        editBookmark={editBookmark}
+        setEditBookmark={setEditBookmark}
+      />
       {bookmarks.length > 0 ? (
-        <ul>
-          {bookmarks.map((bookmark) => (
-            <li key={bookmark.id}>
-              <a href={bookmark.link} target="_blank" rel="noopener noreferrer">
-                {bookmark.title}
-              </a>{" "}
-              - Added on {bookmark.date_added}
-            </li>
-          ))}
-        </ul>
+        bookmarks.map((bookmark) => (
+          <Bookmark
+            key={bookmark.id}
+            bookmark={bookmark}
+            updateBookmark={fetchBookmarks}
+            API_URL={API_URL}
+            setEditBookmark={setEditBookmark}
+          />
+        ))
       ) : (
         <p>No bookmarks found.</p>
       )}

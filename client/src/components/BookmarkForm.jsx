@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const BookmarkForm = ({ API_URL , onBookmarkAdded}) => {
+const BookmarkForm = ({
+  editBookmark,
+  setEditBookmark,
+  API_URL,
+  onBookmarkAdded,
+}) => {
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    if (editBookmark) {
+      setTitle(editBookmark.title);
+      setLink(editBookmark.link);
+    }
+  }, [editBookmark]);
+
+  const handleAdding = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(API_URL + "create.php", {
@@ -27,8 +39,44 @@ const BookmarkForm = ({ API_URL , onBookmarkAdded}) => {
     }
   };
 
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    if (title === editBookmark.title) {
+      setEditBookmark(null);
+      setTitle("");
+      setLink("");
+      return;
+    }
+
+    const id = editBookmark.id;
+
+    try {
+      const response = await fetch(API_URL + "update.php", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id, title }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save the bookmark.");
+      }
+
+      onBookmarkAdded();
+      setEditBookmark(null);
+      setTitle("");
+      setLink("");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
-    <form className="bookmarkForm" onSubmit={handleSubmit}>
+    <form
+      className="bookmarkForm"
+      onSubmit={editBookmark ? handleUpdate : handleAdding}
+    >
       <input
         type="text"
         className="bookmark-input"
@@ -46,9 +94,10 @@ const BookmarkForm = ({ API_URL , onBookmarkAdded}) => {
         required
         pattern="https?://[^\s]+\.[^\s]+"
         title="Please enter a valid URL"
+        disabled={!!editBookmark}
       />
       <button type="submit" className="bookmark-btn">
-        Add Bookmark
+        {editBookmark ? "Update" : "Add"} Bookmark
       </button>
     </form>
   );
