@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #FAFCFE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.App {
+    text-align: center;
+}
+
+h1 {
+    color: #272727;
+    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+}
+
+.bookmarkWrapper {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    margin-top: 5rem;
+    padding: 2rem;
+    border-radius: 25px;
+}
+
+.bookmarkForm {
+    width: 420px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.bookmark-input {
+    outline: none;
+    background: none;
+    border: 2px solid #272727;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    margin-bottom: 0.7rem;
+    width: 100%;
+    color: #272727;
+    font-size: 1.1rem;
+    border-radius: 6px;
+}
+
+.bookmark-btn {
+    background: #272727;
+    color: #fff;
+    border: none;
+    padding: 0.55rem;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    margin-top: 2rem;
+    transition: 0.3s ease;
+}
+
+.bookmark-btn:hover {
+    background: #4b4b4b;
+}
+
+.bookmark {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #272727;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.fa-trash {
+    margin-left: 0.75rem;
+}
+
+.incompleted {
+    color: #fff;
+    cursor: pointer;
+}
+
+.edit-icon,
+.delete-icon {
+    cursor: pointer;
+}
